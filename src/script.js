@@ -32,14 +32,19 @@ scene.add(axesHelper);
 //const flagTexture = textureLoader.load('/textures/test-9.png')
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(50, 50, 50, 100)
+const geometry = new THREE.PlaneGeometry(50,50)
+
+const green = new THREE.Color("rgb(68, 207, 108)")
+const blue = new THREE.Color("rgb(55, 70, 190)")
 
 // Material
 const material = new THREE.ShaderMaterial({
     side:  THREE.DoubleSide,
     uniforms: { 
-        time: { value: 0 },
-        uColor: { value: 0 }
+        u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        u_time: { value: 0 },
+        u_color1: { value: green },
+        u_color2: { value: blue }
     },
     vertexShader: vertex,
     fragmentShader: fragment
@@ -128,7 +133,7 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
     // Update controls
     controls.update()
-
+    material.uniforms.u_time.value += 0.005; // Increment time
     // Render
     renderer.render(scene, camera)
 
