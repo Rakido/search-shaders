@@ -16,7 +16,7 @@ void main() {
     vec2 uv = vUv;
     vec3 color = vec3(0.0);
     
-    color += calcSine(uv, 2.0, 0.25, 0.0, 0.5, vec3(0.0, 0.0, 1.0), 0.3, 1.0);
+    color += calcSine(uv, 2.0, 0.25, 0.0, 0.5,vec3(0.0, 0.0, 0.0), 0.3, 1.0);
     color += calcSine(uv, 2.6, 0.25, 0.2, 0.5, u_color1, 0.3, 1.0);
     color += calcSine(uv, 2.9, 0.25, 0.4, 0.5, u_color2, 0.3, 1.0);
     
