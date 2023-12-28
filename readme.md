@@ -1,16 +1,48 @@
-# Three.js Journey
+# Distorted Pixels
 
-## Setup
-Download [Node.js](https://nodejs.org/en/download/).
-Run this followed commands:
+Distorting pixels with DataTexture, based on [Infinite Bad Guy website](https://billie.withyoutube.com/)
 
-``` bash
-# Install dependencies (only the first time)
-npm install
+![Image Title](https://tympanus.net/codrops/wp-content/uploads/2022/01/DistrotedPixels_feat.jpg)
 
-# Run the local server at localhost:8080
-npm run dev
+[Article on Codrops](https://tympanus.net/codrops/?p=)
 
-# Build for production in the dist/ directory
-npm run build
+[Demo](http://tympanus.net/Development/DistortedPixels/)
+
+
+## Installation
+
+Install dependencies:
+
 ```
+npm install
+```
+
+Compile the code for development and start a local server:
+
+```
+npx parcel index.html
+```
+
+Create the build:
+
+```
+npx parcel build index.html
+```
+
+## Credits
+
+- Images from [Unsplash](https://unsplash.com/)
+
+## Misc
+
+Follow Codrops: [Twitter](http://www.twitter.com/codrops), [Facebook](http://www.facebook.com/codrops), [GitHub](https://github.com/codrops), [Instagram](https://www.instagram.com/codropsss/)
+
+## License
+[MIT](LICENSE)
+
+Made with :blue_heart:  by [Codrops](http://www.codrops.com)
+
+
+
+
+
