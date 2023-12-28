@@ -32,7 +32,7 @@ const scene = new THREE.Scene()
 //const flagTexture = textureLoader.load('/textures/test-9.png')
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(2,2)
+const geometry = new THREE.PlaneGeometry(10,10)
 
 // Colors
 const green = new THREE.Color("rgb(68, 207, 108)")
@@ -50,13 +50,15 @@ window.addEventListener('mousemove', (event) => {
     material.uniforms.u_mouse.value.y = 1 - (event.clientY / sizes.height);
 });
 
+
 // Material
 const material = new THREE.ShaderMaterial({
     side:  THREE.DoubleSide,
     // Uniforms for the shader
     uniforms: {
         u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
-        u_time: { value: 0.0 },
+        iTime: { value: 0 },
+        iResolution: { value: new THREE.Vector3() },
         u_color1: { value: green },
         u_color2: { value: blue },
         u_mouse: { value: mouse }
@@ -149,8 +151,8 @@ const tick = () =>
     // Update controls
     controls.update()
 
-    material.uniforms.u_time.value = elapsedTime ;
-    material.uniforms.u_mouse.value = mouse;
+    material.uniforms.iTime.value = elapsedTime * 0.5 ;
+    //material.uniforms.u_mouse.value = mouse;
 
     // Render
     renderer.render(scene, camera)
