@@ -20,8 +20,8 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 // Axis Helper
-const axesHelper = new THREE.AxesHelper(5);
-scene.add(axesHelper);
+// const axesHelper = new THREE.AxesHelper(5);
+// scene.add(axesHelper);
 
 /**
  * Objects
@@ -32,14 +32,34 @@ scene.add(axesHelper);
 //const flagTexture = textureLoader.load('/textures/test-9.png')
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(50, 50, 50, 100)
+const geometry = new THREE.PlaneGeometry(2,2)
+
+// Colors
+const green = new THREE.Color("rgb(68, 207, 108)")
+const blue = new THREE.Color("rgb(55, 70, 190)")
+
+// Uniform for mouse position
+const mouse = new THREE.Vector2();
+
+window.addEventListener('mousemove', (event) => {
+    mouse.x = (event.clientX / sizes.width) * 2 - 1;
+    mouse.y = -(event.clientY / sizes.height) * 2 + 1;
+
+    // Update the mouse uniform in shader
+    material.uniforms.u_mouse.value.x = 1 - (event.clientX / sizes.width);
+    material.uniforms.u_mouse.value.y = 1 - (event.clientY / sizes.height);
+});
 
 // Material
 const material = new THREE.ShaderMaterial({
     side:  THREE.DoubleSide,
-    uniforms: { 
-        time: { value: 0 },
-        uColor: { value: 0 }
+    // Uniforms for the shader
+    uniforms: {
+        u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+        u_time: { value: 0.0 },
+        u_color1: { value: green },
+        u_color2: { value: blue },
+        u_mouse: { value: mouse }
     },
     vertexShader: vertex,
     fragmentShader: fragment
@@ -128,6 +148,9 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
     // Update controls
     controls.update()
+
+    material.uniforms.u_time.value = elapsedTime ;
+    material.uniforms.u_mouse.value = mouse;
 
     // Render
     renderer.render(scene, camera)
