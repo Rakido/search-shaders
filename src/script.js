@@ -4,6 +4,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 import vertex from './shaders/test/vertex.glsl'
 import fragment from './shaders/test/fragment.glsl'
+import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader.js'
 
 /**
  * DEBUG
@@ -23,6 +24,74 @@ const scene = new THREE.Scene()
 // const axesHelper = new THREE.AxesHelper(5);
 // scene.add(axesHelper);
 
+/** 
+ * SVG 
+ */
+
+// instantiate a loader
+const loader = new SVGLoader();
+
+// load a SVG resource
+loader.load('textures/logo.svg', function (data) {
+    const paths = data.paths;
+    const group = new THREE.Group();
+
+    for (let i = 0; i < paths.length; i++) {
+        const path = paths[i];
+
+        // Create a glass-like material
+        const material = new THREE.MeshPhysicalMaterial({
+            color: 0xffffff,
+            roughness: 0.1,   
+            transmission: 1,  
+            thickness: 1,
+            transmission: 0.9, // Use transmission for glass-like transparency
+            reflectivity: 1, // Adjust for reflectivity
+            clearcoat: 1, // Add a clearcoat layer for extra shininess
+            side: THREE.DoubleSide // Render both sides of the material
+        });
+
+        const shapes = path.toShapes(true);
+
+        for (let j = 0; j < shapes.length; j++) {
+            const shape = shapes[j];
+
+            // Flip the shape on the Y-axis
+            shape.getPoints().forEach(point => {
+                point.y *= -1;
+            });
+
+            const extrudeSettings = {
+                steps: 2,
+                depth: 0.2,
+                bevelEnabled: false
+            };
+
+            const geometry = new THREE.ExtrudeGeometry(shape, extrudeSettings);
+
+            // Alternatively, you could flip the entire geometry
+            // geometry.scale(1, -1, 1);
+
+            const mesh = new THREE.Mesh(geometry, material);
+
+            group.add(mesh);
+        }
+    }
+
+    // Flip the group to correct for the SVG's different coordinate system
+    group.scale.y = -1;
+    group.scale.x = -1;
+    group.position.x = 4;
+    group.position.y = 2;
+
+    // Optionally, translate the group to re-center it, if necessary
+    // const box = new THREE.Box3().setFromObject(group);
+    // const center = box.getCenter(new THREE.Vector3());
+    // group.position.y = (group.position.y - center.y) * 2;
+
+    scene.add(group);
+});
+
 /**
  * Objects
  */
@@ -32,7 +101,8 @@ const scene = new THREE.Scene()
 //const flagTexture = textureLoader.load('/textures/test-9.png')
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(2,2)
+const geometry = new THREE.PlaneGeometry(50,50)
+//const geometry = new THREE.IcosahedronGeometry(8, 15);
 
 // Colors
 const green = new THREE.Color("rgb(68, 207, 108)")
@@ -72,6 +142,8 @@ const material = new THREE.ShaderMaterial({
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+mesh.position.z = 10;
+mesh.position.x = 0;
 
 /**
  * Sizes
