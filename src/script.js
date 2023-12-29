@@ -70,6 +70,27 @@ const material = new THREE.ShaderMaterial({
 //gui.add(material.uniforms.uFrequency.value, 'x').min(0).max(20).step(0.01).name('frequencyX')
 //gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).step(0.01).name('frequencyY')
 
+// Temporary object to hold the color
+const tempColor = {
+    color: `#${blue.getHexString()}`
+};
+
+// Add color controller
+gui.addColor(tempColor, 'color').onChange(value => {
+    // Update the shader uniform
+    material.uniforms.u_color2.value.set(value);
+});
+
+// Temporary object to hold the color
+const tempColor2 = {
+    color: `#${green.getHexString()}`
+};
+
+// Add color controller
+gui.addColor(tempColor2, 'color').onChange(value => {
+    // Update the shader uniform
+    material.uniforms.u_color1.value.set(value);
+});
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
