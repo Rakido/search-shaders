@@ -32,7 +32,7 @@ const scene = new THREE.Scene()
 //const flagTexture = textureLoader.load('/textures/test-9.png')
 
 // Geometry
-const geometry = new THREE.PlaneGeometry(2,2)
+const geometry = new THREE.PlaneGeometry(2,2,300,300)
 
 // Colors
 const green = new THREE.Color("rgb(68, 207, 108)")
@@ -59,7 +59,8 @@ const material = new THREE.ShaderMaterial({
         u_time: { value: 0.0 },
         u_color1: { value: green },
         u_color2: { value: blue },
-        u_mouse: { value: mouse }
+        u_mouse: { value: mouse },
+        u_frequency: { value : 0.2 }
     },
     vertexShader: vertex,
     fragmentShader: fragment
@@ -69,9 +70,14 @@ const material = new THREE.ShaderMaterial({
 //gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).step(0.01).name('frequencyY')
 
 
+
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+gui.add(mesh.rotation, 'x').min(0).max(10).step(0.001).name('planeRotationX')
+gui.add(mesh.rotation, 'y').min(0).max(10).step(0.001).name('planeRotationY')
+gui.add(material.uniforms.u_frequency, 'value').min(0).max(10).step(0.001).name('Frequency')
 
 /**
  * Sizes
@@ -149,7 +155,7 @@ const tick = () =>
     // Update controls
     controls.update()
 
-    material.uniforms.u_time.value = elapsedTime ;
+    material.uniforms.u_time.value = elapsedTime;
     material.uniforms.u_mouse.value = mouse;
 
     // Render
