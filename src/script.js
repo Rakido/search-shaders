@@ -129,13 +129,13 @@ const material = new THREE.ShaderMaterial({
         u_time: { value: 0.0 },
         u_color1: { value: green },
         u_color2: { value: blue },
-        u_mouse: { value: mouse }
+        u_mouse: { value: mouse },
+        u_frequency: { value: 1.0 }
     },
     vertexShader: vertex,
     fragmentShader: fragment
 })
 
-//gui.add(material.uniforms.uFrequency.value, 'x').min(0).max(20).step(0.01).name('frequencyX')
 //gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).step(0.01).name('frequencyY')
 
 
@@ -145,6 +145,7 @@ scene.add(mesh)
 mesh.position.z = 10;
 mesh.position.x = 0;
 
+gui.add(mesh.rotation, 'x').min(0).max(10).step(0.001).name('planeRotation')
 /**
  * Sizes
  */
