@@ -58,6 +58,9 @@ const material = new THREE.ShaderMaterial({
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
 
+gui.add(mesh.rotation, 'x').min(0).max(10).step(0.001).name('planeRotationX')
+gui.add(mesh.rotation, 'y').min(0).max(10).step(0.001).name('planeRotationY')
+
 /**
  * Sizes
  */
